@@ -1,6 +1,5 @@
 # Rafael Lopes Bermudes
 # LeetCode 775 - Inversoes Globais e Locais ( Global and Local Inversions )
-	Use avl na solucao
 
 	Voce recebe um array de inteiros nums de comprimento n que representa
 	uma permutacao de todos os inteiros no intervalo [0, n - 1].
@@ -8,11 +7,11 @@
 	O numero de inversoes GLOBAIS e o numero de pares ( i, j ) diferentes
 	onde:
 
-		0 <= i < j < n  e  nums[i] > nums[j]   ->   indice menor e valor maior
+		0 <= i < j < n  e  nums[i] > nums[j]
 
 	O numero de inversoes LOCAIS e o numero de indices i onde:
 
-		0 <= i < n - 1  e  nums[i] > nums[i + 1]   ->   o anterior tem que ser maior que o próximo
+		0 <= i < n - 1  e  nums[i] > nums[i + 1]
 
 	Retorne true se o numero de inversoes globais for igual ao numero de
 	inversoes locais.
@@ -36,5 +35,3 @@
 		0 <= nums[i] < n
 		Todos os inteiros de nums sao distintos
 		nums e uma permutacao de todos os numeros no intervalo [0, n - 1]
-	
-	Nota: existe solucao mais eficiente, esta versao e para estudar a tecnica de arvore avl.
