@@ -1,3 +1,49 @@
+/*
+===============================================================================
+
+	LeetCode 775 - Inversoes Globais e Locais ( Global and Local Inversions )
+	Use avl na solucao
+
+	Voce recebe um array de inteiros nums de comprimento n que representa
+	uma permutacao de todos os inteiros no intervalo [0, n - 1].
+
+	O numero de inversoes GLOBAIS e o numero de pares ( i, j ) diferentes
+	onde:
+
+		0 <= i < j < n  e  nums[i] > nums[j]   ->   indice menor e valor maior
+
+	O numero de inversoes LOCAIS e o numero de indices i onde:
+
+		0 <= i < n - 1  e  nums[i] > nums[i + 1]   ->   o anterior tem que ser maior que o próximo
+
+	Retorne true se o numero de inversoes globais for igual ao numero de
+	inversoes locais.
+
+	Exemplo 1:
+
+		Entrada: nums = [1,0,2]
+		Saida: true
+		Explicacao: ha 1 inversao global e 1 inversao local.
+
+	Exemplo 2:
+
+		Entrada: nums = [1,2,0]
+		Saida: false
+		Explicacao: ha 2 inversoes globais e 1 inversao local.
+
+	Restricoes:
+
+		n == nums.length
+		1 <= n <= 10^5
+		0 <= nums[i] < n
+		Todos os inteiros de nums sao distintos
+		nums e uma permutacao de todos os numeros no intervalo [0, n - 1]
+	
+	Nota: existe solucao mais eficiente, esta versao e para estudar a tecnica de arvore avl.
+
+===============================================================================
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -165,19 +211,23 @@ isIdealPermutation
 ====================
 */
 
-int contarGlobais( int num, no_t *root ) {
+long long int contarGlobais( long long int num, no_t *root ) {
 	if ( root == NULL )
 		return 0;
+
+	long long int contador = 0;
 
 	while ( true ) {
 		if ( root == NULL)
 			break;
-		if ( root->valor > num )
-			return root->tamanho;
-		if ( root->valor < num )
+		if ( root->valor > num ) {
+			contador += Tamanho( root->dir ) + 1;
+			root = root->esq;
+		}
+		else
 			root = root->dir;	
 	}
-	return 0;
+	return contador;
 }
 
 bool isIdealPermutation( int *nums, int numsSize ) {
@@ -187,7 +237,7 @@ bool isIdealPermutation( int *nums, int numsSize ) {
 		return true;
 
 	no_t *root = NULL;
-	int locais = 0, globais = 0;
+	long long int locais = 0, globais = 0;
 
 	// percorre o vetor para montar a arvore e contabilizar as inversões locais e globais
 	for ( int i = 0; i < numsSize; i++ ) {
@@ -291,6 +341,7 @@ int main( void ) {
 	int		t8[]  = { 0, 2, 1 };				/* uma troca adjacente no fim         */
 	int		t9[]  = { 1, 0, 2, 4, 3 };			/* trocas nas duas pontas             */
 	int		t10[] = { 3, 0, 1, 2 };				/* 3 globais, 1 local                 */
+	int		t11[] = { 5, 1, 4, 3, 2, 0 };
 
 	passou = 0;
 	passou += RodarTeste(  1, t1,  3, true );
@@ -302,8 +353,9 @@ int main( void ) {
 	passou += RodarTeste(  7, t7,  5, false );
 	passou += RodarTeste(  8, t8,  3, true );
 	passou += RodarTeste(  9, t9,  5, true );
-	passou += RodarTeste( 10, t10, 4, false );
+	passou += RodarTeste(  10, t10,  4, false );
+	passou += RodarTeste(  11, t11,  6, false );
 
-	printf( "Resultado final: %d/10 testes passaram\n", passou );
+	printf( "Resultado final: %d/11 testes passaram\n", passou );
 	return passou == 10 ? 0 : 1;
 }
