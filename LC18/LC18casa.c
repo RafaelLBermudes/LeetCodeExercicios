@@ -62,27 +62,32 @@ fourSum
 */
 int **fourSum( int *nums, int numsSize, int target, int *returnSize, int **returnColumnSizes ) {
 	// faz um quickSort no vetor
-	qsort(nums, numsSize, sizeof(int), CompararInt);
+	qsort( nums, numsSize, sizeof(int), CompararInt );
 
 	// inicializa o numero de linhas e a capacidade atual do vetor resposta para caso tenha que aumentar ele
 	int linhas = 0;
 	long long int capacidade = 16;
 
+	if ( numsSize < 4 ) {
+		(*returnSize) = 0;
+		*returnColumnSizes = NULL;
+		return NULL;
+	}
+	
 	// define o returnSize e o returnColumnsSizes
 	(*returnSize) = 0;
 	*returnColumnSizes = malloc( sizeof(int) * capacidade );
 
-	if ( returnColumnSizes == NULL )
+	if ( *returnColumnSizes == NULL )
 		exit(1);
 	// cria o vetor resposta;
 	int **res = malloc( sizeof(int *) * capacidade );
 	if ( res == NULL ) {
-		free( returnColumnSizes );
+		free( *returnColumnSizes );
 		exit(1);
 	}
 
-	if ( numsSize < 4 )
-		return NULL;
+
 
 	for ( int i = 0; i < numsSize - 3; i++ ) {
 		if ( i > 0 && nums[i] == nums[i - 1] )
@@ -104,7 +109,7 @@ int **fourSum( int *nums, int numsSize, int target, int *returnSize, int **retur
 					continue;
 				}
 
-				long long int check = (long long int)nums[i] + nums[j] + nums[x] + nums[z];
+				long long int check = ( long long int )nums[i] + nums[j] + nums[x] + nums[z];
 				if ( check > target )
 					z--;
 				else if ( check < target )
